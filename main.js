@@ -75,7 +75,7 @@ function pintarPelisCards(listaDePelis) {
         </div>
         
         <div class="card-footer text-muted">
-          ${badgetsDeCatergorias}
+          ${badgetsDeCatergorias.join(" ")}
         </div>
       </div>
     `;
