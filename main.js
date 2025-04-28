@@ -20,6 +20,7 @@ const options = {
 };
 
 let generos = [];
+
 fetch(
   `https://api.themoviedb.org/3/genre/movie/list?language=es`,
   options
@@ -55,29 +56,34 @@ async function pedirDatosPelis(nombrePeli) {
 
 function pintarPelisCards(listaDePelis) {
   const moviesContainer = document.getElementById("moviesContainer");
-  moviesContainer.innerHTML = ""; //limpiar lo que hubiera antes
-  //crear las cards con la información nueva
+  moviesContainer.innerHTML = ""; // Limpiar contenido anterior
+
   listaDePelis.forEach((peli) => {
     const badgetsDeCatergorias = peli.genre_ids.map((genreId) => {
       const generoDeLaPeli = generos.find(
         (elementoDelListadoGeneros) => elementoDelListadoGeneros.id === genreId
       );
 
-      return `<span class="badge bg-primary">${generoDeLaPeli.name}</span>`;
+      return `<span class="badge bg-primary me-1">${generoDeLaPeli?.name ?? "Desconocido"}</span>`;
     });
 
     moviesContainer.innerHTML += `
-      <div class="card mb-3">
-        <h3 class="card-header">${peli.title}</h3>
-        <img src="https://image.tmdb.org/t/p/w500/${peli.poster_path}" />
-        <div class="card-body">
-          <p class="card-text">${peli.overview}</p>
-        </div>
-        
-        <div class="card-footer text-muted">
-          ${badgetsDeCatergorias.join(" ")}
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="https://image.tmdb.org/t/p/w500/${peli.poster_path}" class="img-fluid rounded-start" alt="${peli.title}" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">${peli.title}</h5>
+              <p class="card-text">${peli.overview ? peli.overview : 'No hay sinopsis disponible.'}</p>
+              <div>${badgetsDeCatergorias.join(" ")}</div>
+            </div>
+          </div>
         </div>
       </div>
     `;
   });
 }
+
+
